@@ -33,7 +33,7 @@ MAINTAINER Nombre Apellido correo_electronico
 # RUN apt update
 RUN linea_de_comando
 
-# Puerto a exponer. Revisar [documentación](https://docs.docker.com/engine/reference/builder/#expose)
+# Puerto a exponer.
 EXPOSE puerto
 
 # Definir comandos que se ejecutan sobre el contenedor
