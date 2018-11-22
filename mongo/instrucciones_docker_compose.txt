@@ -1,0 +1,111 @@
+SE TIENE QUE HABER INSTALADO DOCKER PREVIAMENTE
+PARA ESTE TUTORIAL SE USA DOCKER, COMBINADO CON DOCKER-COMPOSE Y SE INSTALA COMO SERVICIO, PARA QUE LOS CONTENEDORES INICIEN AUTOMATICAMENTE. AQUI ES UN UNICO TUTORIAL CONFIGURACION E INSTALACION COMO SERVICIO.
+///////////////////////INSTALACION Y CONFIGURACION DE DOCKER-COMPOSE//////////////////////
+Crear directorio de DB
+    # mkdir /home/mongo
+    # mkdir /home/mongo/db
+    # touch /home/mongo/mongod.conf
+
+Configuracion mongod.conf
+    storage:
+        dbPath: /data/db
+        journal:
+            enabled: true
+
+    systemLog:
+        destination: file
+        logAppend: true
+        path: "/var/log/mongodb/mongod.log"
+
+    net:
+        # bindIp: 127.0.0.1
+        port: 27017
+
+    processManagement:
+        fork: false
+        timeZoneInfo: /usr/share/zoneinfo
+
+Instalacion de docker-compose de la url: https://docs.docker.com/compose/install/#install-compose
+Los pasos seguidos fueron:
+    # cd
+    # sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    # sudo chmod +x /usr/local/bin/docker-compose
+    # docker-compose --version
+
+
+Crear el siguiente archivo y completar
+    # sudo nano /etc/systemd/system/docker-compose@.service
+
+    Solo copiar y pegar este codigo generico
+        [Unit]
+        Description=%i service with docker compose
+        Requires=docker.service
+        After=docker.service
+        
+        [Service]
+        Restart=always
+        
+        WorkingDirectory=/etc/docker/compose/%i
+        
+        # Remove old containers, images and volumes
+        ExecStartPre=/usr/local/bin/docker-compose down -v
+        ExecStartPre=/usr/local/bin/docker-compose rm -fv
+        ExecStartPre=-/bin/bash -c 'docker volume ls -qf "name=%i_" | xargs docker volume rm'
+        ExecStartPre=-/bin/bash -c 'docker network ls -qf "name=%i_" | xargs docker network rm'
+        ExecStartPre=-/bin/bash -c 'docker ps -aqf "name=%i_*" | xargs docker rm'
+        
+        # Compose up
+        ExecStart=/usr/local/bin/docker-compose up
+        
+        # Compose down, remove containers and volumes
+        ExecStop=/usr/local/bin/docker-compose down -v
+        
+        [Install]
+        WantedBy=multi-user.target
+
+Crear la carpeta en /etc/docker/ y la carpeta donde colocaremos nuestro archivo docker-compose.yml
+
+    # sudo mkdir /etc/docker/compose
+    # sudo mkdir /etc/docker/compose/mongodb
+
+Crear nuestro archivo docker-compose.yml
+    # sudo nano /etc/docker/compose/mongodb/docker-compose.yml
+
+    Copiar y pegar lo siguiente. Que vendría siendo la configuracion anterior.
+
+        version: '2'
+        services:
+        db:
+            image: mongo:3.6.9
+            container_name: "mongo-yml"
+            volumes:
+                - "/home/mongo/db:/data/db"
+                - "/home/mongo/mongod.conf:/etc/mongod.conf"
+            ports:
+            - "27017:27017"
+            restart: always
+            environment:
+                MONGO_INITDB_ROOT_USERNAME: "gfAdmin"
+                MONGO_INITDB_ROOT_PASSWORD: "123456"
+            command: ["--config","/etc/mongod.conf"]
+
+Recargar el systemd
+
+    # sudo systemctl daemon-reload
+
+Levantar el servicio quer se requiere en este caso mongodb (donde esta el yml)
+
+    # sudo systemctl start docker-compose@mongodb
+
+Comprobar que inicio el servicio
+
+    # docker ps
+
+Validar la conexión con los usuarios gfAdmin, devUser y asi con los demás.
+    VER instrucciones_pruebas_mongo.txt
+
+Todo es exitoso, se puede habilitar el servicio:
+    # sudo systemctl enable docker-compose@mongodb
+
+NOTA: Dentro del directorio /etc/docker/compose pondremos las carpetas con los docker-compose.yml que querramos configurar.
+    Y tomar en cuenta que el servicio tiene al final @mongodb, esta es la carpeta donde se encuentra el docker-compose.yml. Es decir que podemos crear tantas carpetas como servicios querramos en el mismo servidor

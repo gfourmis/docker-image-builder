@@ -1,0 +1,72 @@
+SE TIENE QUE HABER INSTALADO DOCKER PREVIAMENTE
+PARA ESTE TUTORIAL SE USA SOLO DOCKER Y SE INSTALA COMO SERVICIO, PARA QUE LOS CONTENEDORES INICIEN AUTOMATICAMENTE. ESTA SEPARADO EN DOS PARTES.
+///////////////////////INSTALACION Y CONFIGURACION DE DOCKER//////////////////////
+Crear directorio de DB
+    # mkdir /home/mongo
+    # mkdir /home/mongo/db
+    # touch /home/mongo/mongod.conf
+
+Configuracion mongod.conf
+    storage:
+        dbPath: /data/db
+        journal:
+            enabled: true
+
+    systemLog:
+        destination: file
+        logAppend: true
+        path: "/var/log/mongodb/mongod.log"
+
+    net:
+        # bindIp: 127.0.0.1
+        port: 27017
+
+    processManagement:
+        fork: false
+        timeZoneInfo: /usr/share/zoneinfo
+
+
+Levantar docker mongo
+
+    # docker run -p 27017:27017 --name mongo-ubuntu \
+    -v /home/mongo/db:/data/db \
+    -v /home/mongo/mongod.conf:/etc/mongod.conf \
+    -e MONGO_INITDB_ROOT_USERNAME=gfAdmin -e MONGO_INITDB_ROOT_PASSWORD=123456 \
+    -d mongo:3.6.9 \
+    --config /etc/mongod.conf
+
+Validar la conexión con los usuarios gfAdmin, devUser y asi con los demás.
+    VER instrucciones_pruebas_mongo.txt
+
+///////////////////////INICIE DOCKER COMO SERVICIO(DEMONIO)//////////////////////        
+    Para que inicie automaticamente el contenedor como servicio
+        
+        Crear y configurar el archivo que provee el servicio a crear
+        
+            #### sudo nano /etc/systemd/system/docker-(contenedor).service
+            # sudo nano /etc/systemd/system/docker-mongodb.service
+
+            Debe contener lo siguiente
+                [Unit]
+                Description=Mongo Service
+                Requires=docker.service
+                After=docker.service
+
+                [Service]
+                Restart=always
+                ExecStart=/usr/bin/docker start -a mongo-ubuntu
+                ExecStop=/usr/bin/docker stop -t 2 mongo-ubuntu
+
+                [Install]
+                WantedBy=default.target
+            
+            Recargar para que lo reconozca con systemd
+                # sudo systemctl daemon-reload
+
+            Habilitar el servicio creado.
+                # sudo systemctl enable docker-mongodb.service
+
+            Reiniciar la maquina y comprobar la conexión.
+                # sudo reboot
+
+
