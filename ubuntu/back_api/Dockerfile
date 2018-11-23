@@ -33,9 +33,10 @@ RUN apt-get install -y php7.1 php7.1-mbstring php7.1-mcrypt php7.1-xml php7.1-co
 RUN ssh-keygen -q -t rsa -N '' -f /id_rsa
 
 #### Instalación de paquetes apache2 necesarios para el proyecto ####
+# https://github.com/kstaken/dockerfile-examples (PROBADO NO FUNCIONA SOLO COMO ESTA)
+# https://github.com/t3kit/ubuntu16-php7-apache/blob/master/Dockerfile (POR PROBAR)
 
 RUN apt-get install -y apache2 && apt-get clean && rm -rf /var/lib/apt/lists/*
-
 
 #### Cargar variables globales de apache ####
 ENV APACHE_RUN_USER www-data
