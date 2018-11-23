@@ -1,5 +1,5 @@
 ############################################################
-# Dockerfile para el ubuntu phpfpm
+# Dockerfile para el ubuntu nodejs
 # Basado en Ubuntu 16.04
 ############################################################
 
