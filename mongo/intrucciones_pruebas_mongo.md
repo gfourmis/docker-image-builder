@@ -150,18 +150,47 @@ Como para el uso de este docker mongo ya el usuario administrador que podrá ges
         #####mongorestore.exe -h "IP_SERVER" --port "PUERTO" -d "BASE_DE_DATOS" -u "USUARIO_RESTORE_O_ESCRITURA" -p "CLAVE_USUARIO" --gzip UBICACION_DIRECTORIO_BACKUP
         # mongorestore.exe -h "192.168.1.130" --port "27017" -d "dev-sp5" -u "bkpUser" -p "123456" --gzip docker/dev-sp1
 
-# Instalación de cliente mongo
+# Instalar Mongo (cliente)
 
-    Para conectarse ya sea un cliente remoto o local en ubuntu 16.04
-        Actualizar repositorios
-            # sudo apt update
-        Instalar paquetes necesarios
-            # sudo apt install apt-transport-https nano
-        Tomar las llaves de mongo
-            # sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-        Escribir directorio de los repositrios
-            # echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
-        Actualizar de nuevo los repositorios
-            # sudo apt update
-        Instalar especificamente el paquete de mongo version 3.6.9
-            # sudo apt install -y mongodb-org-shell=3.6.9 mongodb-org-tools=3.6.9
+Para conectarse a un servidor remoto o local desde ubuntu 16.04.
+
+###### Actualizar repositorios e instalar paquetes necesarios
+```
+apt update && apt install -y apt-transport-https nano
+```
+
+## Mongo 4.0
+###### Agregar llave
+```
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+```
+###### Agregar repositorio
+```
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | tee /etc/apt/sources.list.d/mongodb.list
+```
+###### Actualizar repositorios
+```
+apt update
+```
+###### Instalar especificamente el paquete
+```
+apt install -y mongodb-org-shell=4.0.1 mongodb-org-tools=4.0.1
+```
+
+## Mongo 3.6.9
+###### Agregar llave
+```
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+```
+###### Agregar repositorio
+```
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.6.list
+```
+###### Actualizar repositorios
+```
+apt update
+```
+###### Instalar especificamente el paquete
+```
+apt install -y mongodb-org-shell=3.6.9 mongodb-org-tools=3.6.9
+```
