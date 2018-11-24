@@ -150,7 +150,7 @@ Como para el uso de este docker mongo ya el usuario administrador que podrá ges
         #####mongorestore.exe -h "IP_SERVER" --port "PUERTO" -d "BASE_DE_DATOS" -u "USUARIO_RESTORE_O_ESCRITURA" -p "CLAVE_USUARIO" --gzip UBICACION_DIRECTORIO_BACKUP
         # mongorestore.exe -h "192.168.1.130" --port "27017" -d "dev-sp5" -u "bkpUser" -p "123456" --gzip docker/dev-sp1
 
-///////////////////////INSTALACION DE CLIENTE EN MAQUINA UBUNTU//////////////////////        
+# Instalación de cliente mongo
 
     Para conectarse ya sea un cliente remoto o local en ubuntu 16.04
         Actualizar repositorios
