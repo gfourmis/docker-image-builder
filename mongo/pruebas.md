@@ -1,11 +1,59 @@
-///////////////////////COMPROBAR FUNCIONAMIENTO DE MONGO SOBRE DOCKER//////////////////////
+# 1. Instalar cliente MongoDB
 
-Si se requiere conectar desde la misma consola
-    Realizar los pasos de instalación mas abajo, se hace todo igual en remoto, quitando la opción --host 192.168.1.130 o la IP_SERVER
+Para conectarse a un servidor remoto o local desde ubuntu 16.04.
 
-Conectarse desde un cliente externo
-    #### mongo --host IP_SERVER -u USUARIO -p CLAVE_USUARIO --authenticationDatabase BASE_DE_DATOS
-    # mongo --host 192.168.1.130 -u gfAdmin -p 123456 --authenticationDatabase admin
+###### Actualizar repositorios e instalar paquetes necesarios
+```bash
+apt update && apt install -y apt-transport-https nano
+```
+
+## Mongo 4.0
+###### Agregar llave
+```bash
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+```
+###### Agregar repositorio
+```bash
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | tee /etc/apt/sources.list.d/mongodb.list
+```
+###### Actualizar repositorios
+```bash
+apt update
+```
+###### Instalar especificamente el paquete
+```bash
+apt install -y mongodb-org-shell=4.0.1 mongodb-org-tools=4.0.1
+```
+
+## Mongo 3.6.9
+###### Agregar llave
+```bash
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+```
+###### Agregar repositorio
+```bash
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.6.list
+```
+###### Actualizar repositorios
+```bash
+apt update
+```
+###### Instalar especificamente el paquete
+```bash
+apt install -y mongodb-org-shell=3.6.9 mongodb-org-tools=3.6.9
+```
+
+# 2. Conectarse a servidor MongoDB
+
+###### Normal
+```bash
+mongo --host IP_SERVER -u USUARIO -p CLAVE_USUARIO --authenticationDatabase BASE_DE_DATOS
+```
+
+###### Cluster
+```bash
+mongo "mongodb+srv://HOST_NAME/DB_NAME" --username USER_NAME
+```
 
 Como para el uso de este docker mongo ya el usuario administrador que podrá gestionar la creación de usuarios y asignación de roles y privilegios sobre los mismo, entonces procedemos a crear los usuarios:
 
@@ -150,47 +198,3 @@ Como para el uso de este docker mongo ya el usuario administrador que podrá ges
         #####mongorestore.exe -h "IP_SERVER" --port "PUERTO" -d "BASE_DE_DATOS" -u "USUARIO_RESTORE_O_ESCRITURA" -p "CLAVE_USUARIO" --gzip UBICACION_DIRECTORIO_BACKUP
         # mongorestore.exe -h "192.168.1.130" --port "27017" -d "dev-sp5" -u "bkpUser" -p "123456" --gzip docker/dev-sp1
 
-# Instalar Mongo (cliente)
-
-Para conectarse a un servidor remoto o local desde ubuntu 16.04.
-
-###### Actualizar repositorios e instalar paquetes necesarios
-```
-apt update && apt install -y apt-transport-https nano
-```
-
-## Mongo 4.0
-###### Agregar llave
-```
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
-```
-###### Agregar repositorio
-```
-echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | tee /etc/apt/sources.list.d/mongodb.list
-```
-###### Actualizar repositorios
-```
-apt update
-```
-###### Instalar especificamente el paquete
-```
-apt install -y mongodb-org-shell=4.0.1 mongodb-org-tools=4.0.1
-```
-
-## Mongo 3.6.9
-###### Agregar llave
-```
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-```
-###### Agregar repositorio
-```
-echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.6.list
-```
-###### Actualizar repositorios
-```
-apt update
-```
-###### Instalar especificamente el paquete
-```
-apt install -y mongodb-org-shell=3.6.9 mongodb-org-tools=3.6.9
-```
