@@ -43,10 +43,22 @@ ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
 ENV APACHE_LOG_DIR /var/log/apache2
 ENV APACHE_LOCK_DIR /var/lock/apache2
-# ENV APACHE_PID_FILE /var/run/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+ENV APACHE_RUN_DIR /var/run/apache2
+
+#### Configuracion de apacche2 ####
+RUN mkdir -p /var/lock/apache2
+RUN a2enmod rewrite
+COPY ./dk.agileteams.local.conf /etc/apache2/sites-available/dk.agileteams.local.conf
+RUN a2dissite 000-default.conf
+RUN a2ensite dk.agileteams.local.conf
+# RUN rm /var/www/html/index.html
+# COPY ./index.php /var/www/html/index.php
+
 
 # Puerto a exponer.
-EXPOSE 80
+EXPOSE 80 443
+
 
 # Configurar que ejecutará al iniciar el contenedor
 CMD ["apache2ctl", "-D", "FOREGROUND"]
