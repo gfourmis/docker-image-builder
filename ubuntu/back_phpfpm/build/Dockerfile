@@ -104,7 +104,7 @@ ENV APACHE_RUN_DIR /var/run/apache2
 RUN mkdir -p /var/lock/apache2
 RUN a2enmod rewrite
 COPY ./dk.agileteams.local.conf /etc/apache2/sites-available/dk.agileteams.local.conf
-RUN a2dismod php
+# RUN a2dismod php
 RUN a2dismod mpm_worker && a2dismod mpm_prefork
 RUN a2dissite 000-default.conf
 RUN a2ensite dk.agileteams.local.conf
