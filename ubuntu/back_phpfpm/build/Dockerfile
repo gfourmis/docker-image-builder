@@ -55,11 +55,11 @@ RUN make && make install
 RUN	chmod o+x /etc/php7/bin/phpize && chmod o+x /etc/php7/bin/php-config
 WORKDIR /home/php-src/ext/pthreads*
 RUN pwd
+RUN /etc/php7/bin/phpize
 RUN ./configure --prefix=/etc/php7 \
 	--with-libdir=/lib/x86_64-linux-gnu \
 	--enable-pthreads=shared \
 	--with-php-config=/etc/php7/bin/php-config
-RUN /etc/php7/bin/phpize
 RUN make && make install
 
 WORKDIR /home/php-src/
