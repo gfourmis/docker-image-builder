@@ -113,13 +113,12 @@ RUN a2enmod proxy_fcgi
 
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-# RUN cp -r php.ini-development /etc/php7/cli/php.ini
-# RUN cp -r php.ini-development /etc/php7/cli/php-cli.ini
-# RUN echo "extension=pthreads.so" > /etc/php7/cli/php-cli.ini
-# RUN echo "zend_extension=opcache.so" >> /etc/php7/cli/php.ini
-# RUN cp /etc/php7/etc/php-fpm.conf.default /etc/php7/etc/php-fpm.conf
 
 
-## Version 0.4
+# Puerto a exponer.
+EXPOSE 80 443
 
+
+# Configurar que ejecutará al iniciar el contenedor
+CMD ["apache2ctl", "-D", "FOREGROUND"]
 
