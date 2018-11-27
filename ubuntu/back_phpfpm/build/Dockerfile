@@ -37,8 +37,9 @@ RUN ./configure --prefix=/etc/php7 \
     --enable-sysvshm --enable-sysvmsg \
     --with-gd --with-jpeg-dir --with-png-dir \
     --with-freetype-dir --with-xsl \
-    --enable-mysqlnd --with-mysqli=mysqlnd \
-    --with-pdo-mysql=mysqlnd --enable-mbstring --with-xmlrpc \
+    # --enable-mysqlnd --with-mysqli=mysqlnd \
+    # --with-pdo-mysql=mysqlnd \
+    --enable-mbstring --with-xmlrpc \
     --enable-simplexml --enable-json --enable-xml \
     --enable-dom --enable-opcache --enable-shmop \
     --enable-wddx --with-pcre-regex \
@@ -80,13 +81,17 @@ RUN ./configure --prefix=/etc/php7 \
 	--enable-pthreads=shared \
 	--with-php-config=/etc/php7/bin/php-config
 RUN make && make install
+RUN pecl install mongodb
 
-WORKDIR /home/php-src/
-RUN cp -r php.ini-development /etc/php7/cli/php.ini
-RUN cp -r php.ini-development /etc/php7/cli/php-cli.ini
-RUN echo "extension=pthreads.so" > /etc/php7/cli/php-cli.ini
-RUN echo "zend_extension=opcache.so" >> /etc/php7/cli/php.ini
-
+COPY ./php.ini:/etc/php7/cli/php.ini
+COPY ./php-cli.ini:/etc/php7/cli/php-cli.ini
+COPY ./php-fpm.conf:/etc/php7/etc/php-fpm.conf
+RUN php-fpm --fpm-config /etc/php7/etc/php-fpm.conf
+# RUN cp -r php.ini-development /etc/php7/cli/php.ini
+# RUN cp -r php.ini-development /etc/php7/cli/php-cli.ini
+# RUN echo "extension=pthreads.so" > /etc/php7/cli/php-cli.ini
+# RUN echo "zend_extension=opcache.so" >> /etc/php7/cli/php.ini
+# RUN cp /etc/php7/etc/php-fpm.conf.default /etc/php7/etc/php-fpm.conf
 
 
 ## Version 0.4
