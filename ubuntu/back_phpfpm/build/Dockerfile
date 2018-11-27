@@ -87,7 +87,7 @@ COPY ./php.ini /etc/php7/cli/php.ini
 COPY ./php-cli.ini /etc/php7/cli/php-cli.ini
 COPY ./php-fpm.conf /etc/php7/etc/php-fpm.conf
 COPY ./www.conf /etc/php7/etc/php-fpm.d/www.conf
-RUN php-fpm --fpm-config /etc/php7/etc/php-fpm.conf
+WORKDIR /
 RUN rm -rf /home/php-src
 
 RUN apt-get install -y apache2
@@ -109,6 +109,7 @@ RUN a2dismod mpm_worker && a2dismod mpm_prefork
 RUN a2dissite 000-default.conf
 RUN a2ensite dk.agileteams.local.conf
 RUN a2enmod proxy_fcgi
+RUN php-fpm --fpm-config /etc/php7/etc/php-fpm.conf
 
 
 
