@@ -12,7 +12,6 @@ LABEL maintainer="Luis Briceño<luijo265@gmail.com>"
 RUN apt-get -y update && apt-get -y install git nano
 RUN mkdir -p /etc/php7
 RUN mkdir -p /etc/php7/cli
-RUN cd /home
 
 # Cuando se quiere instalar gmp
 RUN apt-get -y install libgmp-dev
@@ -21,6 +20,7 @@ RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h
 
 # Instalacion de paquetes PHP
 # Descarga de archivos necesarios
+RUN cd /home
 RUN pwd
 RUN git clone https://github.com/php/php-src.git -b PHP-7.1.23 --depth=1
 RUN pwd
