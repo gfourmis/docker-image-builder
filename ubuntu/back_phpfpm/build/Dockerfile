@@ -9,7 +9,7 @@ FROM ubuntu:16.04
 LABEL maintainer="Luis Briceño<luijo265@gmail.com>"
 
 # Previa instalación de paquetes PHP
-RUN apt-get update & apt-get -y install git nano
+RUN apt-get -y update && apt-get -y install git nano
 RUN mkdir -p /etc/php7
 RUN mkdir -p /etc/php7/cli
 RUN cd /home
