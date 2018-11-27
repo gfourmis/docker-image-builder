@@ -51,41 +51,41 @@ RUN ./configure --prefix=/etc/php7 \
     --with-fpm-user=www-data --with-fpm-group=www-data
 RUN make && make install
 ## Version 0.3
-# RUN update-alternatives --install /usr/bin/php php /etc/php7/bin/php 50 --slave /usr/share/man/man1/php.1.gz php.1.gz /etc/php7/php/man/man1/php.1 \
-# 	update-alternatives --set php /etc/php7/bin/php
+RUN update-alternatives --install /usr/bin/php php /etc/php7/bin/php 50 --slave /usr/share/man/man1/php.1.gz php.1.gz /etc/php7/php/man/man1/php.1 && \
+	update-alternatives --set php /etc/php7/bin/php
 
-# RUN update-alternatives --install /usr/bin/phar phar /etc/php7/bin/phar 50 --slave /usr/share/man/man1/phar.1.gz phar.1.gz /etc/php7/php/man/man1/phar.1 \
-# 	update-alternatives --set phar /etc/php7/bin/phar
+RUN update-alternatives --install /usr/bin/phar phar /etc/php7/bin/phar 50 --slave /usr/share/man/man1/phar.1.gz phar.1.gz /etc/php7/php/man/man1/phar.1 && \
+	update-alternatives --set phar /etc/php7/bin/phar
 
-# RUN update-alternatives --install /usr/bin/phar.phar phar.phar /etc/php7/bin/phar.phar 50 --slave /usr/share/man/man1/phar.phar.1.gz phar.phar.1.gz /etc/php7/php/man/man1/phar.phar.1 \
-# 	update-alternatives --set phar.phar /etc/php7/bin/phar.phar
+RUN update-alternatives --install /usr/bin/phar.phar phar.phar /etc/php7/bin/phar.phar 50 --slave /usr/share/man/man1/phar.phar.1.gz phar.phar.1.gz /etc/php7/php/man/man1/phar.phar.1 && \
+	update-alternatives --set phar.phar /etc/php7/bin/phar.phar
 
-# RUN update-alternatives --install /usr/bin/phpize phpize /etc/php7/bin/phpize 50 --slave /usr/share/man/man1/phpize.1.gz phpize.1.gz /etc/php7/php/man/man1/phpize.1 \
-# 	update-alternatives --set phpize /etc/php7/bin/phpize
+RUN update-alternatives --install /usr/bin/phpize phpize /etc/php7/bin/phpize 50 --slave /usr/share/man/man1/phpize.1.gz phpize.1.gz /etc/php7/php/man/man1/phpize.1 && \
+	update-alternatives --set phpize /etc/php7/bin/phpize
 
-# RUN update-alternatives --install /usr/bin/php-config php-config /etc/php7/bin/php-config 50 --slave /usr/share/man/man1/php-config.1.gz php-config.1.gz /etc/php7/php/man/man1/php-config.1 \
-# 	update-alternatives --set php-config /etc/php7/bin/php-config
+RUN update-alternatives --install /usr/bin/php-config php-config /etc/php7/bin/php-config 50 --slave /usr/share/man/man1/php-config.1.gz php-config.1.gz /etc/php7/php/man/man1/php-config.1 && \
+	update-alternatives --set php-config /etc/php7/bin/php-config
 
-# RUN update-alternatives --install /usr/bin/php-fpm php-fpm /etc/php7/sbin/php-fpm 50 --slave /usr/share/man/man8/php-fpm.1.gz php-fpm.1.gz /etc/php7/php/man/man8/php-fpm.8 \
-# 	update-alternatives --set php-fpm /etc/php7/sbin/php-fpm
+RUN update-alternatives --install /usr/bin/php-fpm php-fpm /etc/php7/sbin/php-fpm 50 --slave /usr/share/man/man8/php-fpm.1.gz php-fpm.1.gz /etc/php7/php/man/man8/php-fpm.8 && \
+	update-alternatives --set php-fpm /etc/php7/sbin/php-fpm
 
-# RUN update-alternatives --install /usr/bin/pecl pecl /etc/php7/bin/pecl 50 \
-# 	update-alternatives --set pecl /etc/php7/bin/pecl
+RUN update-alternatives --install /usr/bin/pecl pecl /etc/php7/bin/pecl 50 \
+	update-alternatives --set pecl /etc/php7/bin/pecl
 
-# RUN	chmod o+x /etc/php7/bin/phpize && chmod o+x /etc/php7/bin/php-config
-# WORKDIR /home/php-src/ext/pthreads*
-# RUN phpize
-# RUN ./configure --prefix=/etc/php7 \
-# 	--with-libdir=/lib/x86_64-linux-gnu \
-# 	--enable-pthreads=shared \
-# 	--with-php-config=/etc/php7/bin/php-config
-# RUN make && make install
+RUN	chmod o+x /etc/php7/bin/phpize && chmod o+x /etc/php7/bin/php-config
+WORKDIR /home/php-src/ext/pthreads*
+RUN phpize
+RUN ./configure --prefix=/etc/php7 \
+	--with-libdir=/lib/x86_64-linux-gnu \
+	--enable-pthreads=shared \
+	--with-php-config=/etc/php7/bin/php-config
+RUN make && make install
 
-# WORKDIR /home/php-src/
-# RUN cp -r php.ini-development /etc/php7/cli/php.ini
-# RUN cp -r php.ini-development /etc/php7/cli/php-cli.ini
-# RUN echo "extension=pthreads.so" > /etc/php7/cli/php-cli.ini
-# RUN echo "zend_extension=opcache.so" >> /etc/php7/cli/php.ini
+WORKDIR /home/php-src/
+RUN cp -r php.ini-development /etc/php7/cli/php.ini
+RUN cp -r php.ini-development /etc/php7/cli/php-cli.ini
+RUN echo "extension=pthreads.so" > /etc/php7/cli/php-cli.ini
+RUN echo "zend_extension=opcache.so" >> /etc/php7/cli/php.ini
 
 ## Version 0.4
 
