@@ -109,7 +109,10 @@ RUN a2dismod mpm_worker && a2dismod mpm_prefork
 RUN a2dissite 000-default.conf
 RUN a2ensite dk.agileteams.local.conf
 RUN a2enmod proxy_fcgi
-RUN php-fpm --fpm-config /etc/php7/etc/php-fpm.conf
+RUN apt install wget
+RUN wget https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py \
+	&& chmod a+x ps_mem.py
+# RUN php-fpm --fpm-config /etc/php7/etc/php-fpm.conf
 
 
 
@@ -121,5 +124,6 @@ EXPOSE 80 443
 
 
 # Configurar que ejecutará al iniciar el contenedor
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+CMD php-fpm --fpm-config /etc/php7/etc/php-fpm.conf
+ENTRYPOINT ["apache2ctl", "-D", "FOREGROUND"]
 
