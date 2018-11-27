@@ -73,19 +73,19 @@ RUN update-alternatives --install /usr/bin/pecl pecl /etc/php7/bin/pecl 50 && \
 	update-alternatives --set pecl /etc/php7/bin/pecl
 
 RUN	chmod o+x /etc/php7/bin/phpize && chmod o+x /etc/php7/bin/php-config
-WORKDIR /home/php-src/ext/pthreads*
-# RUN phpize
-# RUN ./configure --prefix=/etc/php7 \
-# 	--with-libdir=/lib/x86_64-linux-gnu \
-# 	--enable-pthreads=shared \
-# 	--with-php-config=/etc/php7/bin/php-config
-# RUN make && make install
+WORKDIR /home/php-src/ext/pthreads
+RUN phpize
+RUN ./configure --prefix=/etc/php7 \
+	--with-libdir=/lib/x86_64-linux-gnu \
+	--enable-pthreads=shared \
+	--with-php-config=/etc/php7/bin/php-config
+RUN make && make install
 
-# WORKDIR /home/php-src/
-# RUN cp -r php.ini-development /etc/php7/cli/php.ini
-# RUN cp -r php.ini-development /etc/php7/cli/php-cli.ini
-# RUN echo "extension=pthreads.so" > /etc/php7/cli/php-cli.ini
-# RUN echo "zend_extension=opcache.so" >> /etc/php7/cli/php.ini
+WORKDIR /home/php-src/
+RUN cp -r php.ini-development /etc/php7/cli/php.ini
+RUN cp -r php.ini-development /etc/php7/cli/php-cli.ini
+RUN echo "extension=pthreads.so" > /etc/php7/cli/php-cli.ini
+RUN echo "zend_extension=opcache.so" >> /etc/php7/cli/php.ini
 
 ## Version 0.4
 
