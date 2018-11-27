@@ -69,7 +69,7 @@ RUN update-alternatives --install /usr/bin/php-config php-config /etc/php7/bin/p
 RUN update-alternatives --install /usr/bin/php-fpm php-fpm /etc/php7/sbin/php-fpm 50 --slave /usr/share/man/man8/php-fpm.1.gz php-fpm.1.gz /etc/php7/php/man/man8/php-fpm.8 && \
 	update-alternatives --set php-fpm /etc/php7/sbin/php-fpm
 
-RUN update-alternatives --install /usr/bin/pecl pecl /etc/php7/bin/pecl 50 \
+RUN update-alternatives --install /usr/bin/pecl pecl /etc/php7/bin/pecl 50 && \
 	update-alternatives --set pecl /etc/php7/bin/pecl
 
 RUN	chmod o+x /etc/php7/bin/phpize && chmod o+x /etc/php7/bin/php-config
