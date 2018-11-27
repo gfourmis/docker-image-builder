@@ -86,8 +86,32 @@ RUN pecl install mongodb
 COPY ./php.ini /etc/php7/cli/php.ini
 COPY ./php-cli.ini /etc/php7/cli/php-cli.ini
 COPY ./php-fpm.conf /etc/php7/etc/php-fpm.conf
+COPY ./www.conf:/etc/php7/etc/php-fpm.d/www.conf
 RUN php-fpm --fpm-config /etc/php7/etc/php-fpm.conf
 RUN rm -rf /home/php-src
+
+RUN apt-get install -y apache2
+
+#### Cargar variables globales de apache ####
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+ENV APACHE_RUN_DIR /var/run/apache2
+
+#### Configuracion de apacche2 ####
+RUN mkdir -p /var/lock/apache2
+RUN a2enmod rewrite
+COPY ./dk.agileteams.local.conf /etc/apache2/sites-available/dk.agileteams.local.conf
+RUN a2dismod php
+RUN a2dismod mpm_worker && a2dismod mpm_prefork
+RUN a2dissite 000-default.conf
+RUN a2ensite dk.agileteams.local.conf
+RUN a2enmod proxy_fcgi
+
+
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # RUN cp -r php.ini-development /etc/php7/cli/php.ini
 # RUN cp -r php.ini-development /etc/php7/cli/php-cli.ini
@@ -97,4 +121,5 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
 ## Version 0.4
+
 
