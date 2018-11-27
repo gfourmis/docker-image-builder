@@ -21,7 +21,9 @@ RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h
 
 # Instalacion de paquetes PHP
 # Descarga de archivos necesarios
+RUN pwd
 RUN git clone https://github.com/php/php-src.git -b PHP-7.1.23 --depth=1
+RUN pwd
 RUN cd /home/php-src/ext
 RUN git clone https://github.com/sjdskl/pthreads-php7.1.git
 
