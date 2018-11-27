@@ -83,9 +83,9 @@ RUN ./configure --prefix=/etc/php7 \
 RUN make && make install
 RUN pecl install mongodb
 
-COPY ./php.ini:/etc/php7/cli/php.ini
-COPY ./php-cli.ini:/etc/php7/cli/php-cli.ini
-COPY ./php-fpm.conf:/etc/php7/etc/php-fpm.conf
+COPY ./php.ini /etc/php7/cli/php.ini
+COPY ./php-cli.ini /etc/php7/cli/php-cli.ini
+COPY ./php-fpm.conf /etc/php7/etc/php-fpm.conf
 RUN php-fpm --fpm-config /etc/php7/etc/php-fpm.conf
 RUN rm -rf /home/php-src
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
