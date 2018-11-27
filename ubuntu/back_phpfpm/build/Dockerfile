@@ -28,18 +28,25 @@ RUN git clone https://github.com/php/php-src.git /home/php-src -b PHP-7.1.23 --d
 RUN git clone https://github.com/sjdskl/pthreads-php7.1.git /home/php-src/ext/pthreads
 WORKDIR /home/php-src/
 RUN ./buildconf --force
-RUN ./configure --prefix=/etc/php7 --with-bz2 --with-zlib --enable-zip \
-    --enable-intl --with-mcrypt --with-openssl --with-readline --with-curl \
-    --with-pspell --with-enchant --with-gettext --enable-sockets \
-    --enable-sysvsem --enable-sysvshm --enable-sysvmsg \
-    --with-gd --with-jpeg-dir --with-png-dir --with-freetype-dir --with-xsl \
-    --enable-mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd \
-    --enable-mbstring --with-xmlrpc --enable-simplexml --enable-json \
-    --enable-xml --enable-dom --enable-opcache --enable-shmop --enable-wddx \
-    --with-pcre-regex --with-config-file-path=/etc/php7/cli \
+RUN ./configure --prefix=/etc/php7 \
+	--with-bz2 --with-zlib --enable-zip \
+    --enable-intl --with-mcrypt \
+    --with-openssl --with-readline --with-curl \
+    --with-pspell --with-enchant --with-gettext \
+    --enable-sockets --enable-sysvsem \
+    --enable-sysvshm --enable-sysvmsg \
+    --with-gd --with-jpeg-dir --with-png-dir \
+    --with-freetype-dir --with-xsl \
+    --enable-mysqlnd --with-mysqli=mysqlnd \
+    --with-pdo-mysql=mysqlnd --enable-mbstring --with-xmlrpc \
+    --enable-simplexml --enable-json --enable-xml \
+    --enable-dom --enable-opcache --enable-shmop \
+    --enable-wddx --with-pcre-regex \
+    --with-config-file-path=/etc/php7/cli \
     --with-config-file-scan-dir=/etc/php7/etc \
     --with-tsrm-pthreads --enable-fpm --enable-exif \
-    --enable-debug --enable-cgi --enable-cli --enable-maintainer-zts \
+    --enable-debug --enable-cgi --enable-cli \
+    --enable-maintainer-zts \
     --with-gmp \
     --with-fpm-user=www-data --with-fpm-group=www-data
 RUN make && make install
@@ -47,6 +54,7 @@ RUN make && make install
 
 RUN	chmod o+x /etc/php7/bin/phpize && chmod o+x /etc/php7/bin/php-config
 WORKDIR /home/php-src/ext/pthreads*
+RUN pwd
 RUN /etc/php7/bin/phpize
 RUN ./configure --prefix=/etc/php7 \
 	--with-libdir=/lib/x86_64-linux-gnu \
