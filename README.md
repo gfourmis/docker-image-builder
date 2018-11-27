@@ -26,7 +26,7 @@ Editar con lo siguiente (que se ajuste a lo requerido):
 FROM nombre_image:tag
 
 # Archivo Autor / Mantenimiento
-MAINTAINER Nombre Apellido correo_electronico
+LABEL maintainer="Nombre Apellido<correo_electronico>"
 
 # Comandos a ejecutar al iniciar el contenedor
 # Ejemplo: 
