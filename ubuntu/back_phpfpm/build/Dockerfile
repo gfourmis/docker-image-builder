@@ -13,8 +13,7 @@ RUN apt-get -y update && apt-get -y install git nano autoconf \
 	make build-essential re2c bison libxml2-dev libssl-dev \
 	 libcurl4-openssl-dev pkg-config libbz2-dev libenchant-dev \
 	 libjpeg-turbo8-dev libpng-dev libfreetype6-dev libmcrypt-dev \
-	 libpspell-dev libreadline-dev libxslt-dev \
-	 && docker-php-ext-install bz2
+	 libpspell-dev libreadline-dev libxslt-dev 
 RUN mkdir -p /etc/php7
 RUN mkdir -p /etc/php7/cli
 
@@ -52,22 +51,6 @@ RUN ./configure --prefix=/etc/php7 \
     --with-fpm-user=www-data --with-fpm-group=www-data
 RUN make && make install
 ## Version 0.3
-
-RUN	chmod o+x /etc/php7/bin/phpize && chmod o+x /etc/php7/bin/php-config
-WORKDIR /home/php-src/ext/pthreads*
-RUN /etc/php7/bin/phpize
-RUN ./configure --prefix=/etc/php7 \
-	--with-libdir=/lib/x86_64-linux-gnu \
-	--enable-pthreads=shared \
-	--with-php-config=/etc/php7/bin/php-config
-RUN make && make install
-
-WORKDIR /home/php-src/
-RUN cp -r php.ini-development /etc/php7/cli/php.ini
-RUN cp -r php.ini-development /etc/php7/cli/php-cli.ini
-RUN echo "extension=pthreads.so" > /etc/php7/cli/php-cli.ini
-RUN echo "zend_extension=opcache.so" >> /etc/php7/cli/php.ini
-
 RUN update-alternatives --install /usr/bin/php php /etc/php7/bin/php 50 --slave /usr/share/man/man1/php.1.gz php.1.gz /etc/php7/php/man/man1/php.1 \
 	update-alternatives --set php /etc/php7/bin/php
 
@@ -88,5 +71,21 @@ RUN update-alternatives --install /usr/bin/php-fpm php-fpm /etc/php7/sbin/php-fp
 
 RUN update-alternatives --install /usr/bin/pecl pecl /etc/php7/bin/pecl 50 \
 	update-alternatives --set pecl /etc/php7/bin/pecl
+
+RUN	chmod o+x /etc/php7/bin/phpize && chmod o+x /etc/php7/bin/php-config
+WORKDIR /home/php-src/ext/pthreads*
+RUN phpize
+RUN ./configure --prefix=/etc/php7 \
+	--with-libdir=/lib/x86_64-linux-gnu \
+	--enable-pthreads=shared \
+	--with-php-config=/etc/php7/bin/php-config
+RUN make && make install
+
+WORKDIR /home/php-src/
+RUN cp -r php.ini-development /etc/php7/cli/php.ini
+RUN cp -r php.ini-development /etc/php7/cli/php-cli.ini
+RUN echo "extension=pthreads.so" > /etc/php7/cli/php-cli.ini
+RUN echo "zend_extension=opcache.so" >> /etc/php7/cli/php.ini
+
 ## Version 0.4
 
