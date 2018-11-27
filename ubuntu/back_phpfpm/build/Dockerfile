@@ -13,7 +13,8 @@ RUN apt-get -y update && apt-get -y install git nano autoconf \
 	make build-essential re2c bison libxml2-dev libssl-dev \
 	 libcurl4-openssl-dev pkg-config libbz2-dev libenchant-dev \
 	 libjpeg-turbo8-dev libpng-dev libfreetype6-dev libmcrypt-dev \
-	 libpspell-dev libreadline-dev libxslt-dev 
+	 libpspell-dev libreadline-dev libxslt-dev \
+	 && docker-php-ext-install bz2
 RUN mkdir -p /etc/php7
 RUN mkdir -p /etc/php7/cli
 
@@ -54,7 +55,6 @@ RUN make && make install
 
 RUN	chmod o+x /etc/php7/bin/phpize && chmod o+x /etc/php7/bin/php-config
 WORKDIR /home/php-src/ext/pthreads*
-RUN pwd
 RUN /etc/php7/bin/phpize
 RUN ./configure --prefix=/etc/php7 \
 	--with-libdir=/lib/x86_64-linux-gnu \
