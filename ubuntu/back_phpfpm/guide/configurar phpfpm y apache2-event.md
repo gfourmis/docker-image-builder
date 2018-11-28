@@ -21,23 +21,23 @@
 ### 3.- Completar configuracion del archivo "`/etc/apache2/mods-enabled/mpm-event.conf`"(Esto dentro del contenedor, si compartio esta configuracion en el host anfitrion de docker, debe editarlo alli)
 ```
 <IfModule mpm_*_module>
-    ServerLimit           (Total RAM - Memory used for Linux, DB, etc.) / process size
-    StartServers          (Number of Cores)
+    ServerLimit           (MaxRequestWorker)
+    StartServers          (Numero de CPU's)
     MinSpareThreads       25
     MaxSpareThreads       75
     ThreadLimit           64
     ThreadsPerChild       25
-    MaxRequestWorkers     (Total RAM - Memory used for Linux, DB, etc.) / process size
+    MaxRequestWorkers     (MaxRequestWorker)
     MaxConnectionsPerChild   1000
 </IfModule>
 ```
 ### 4.- Completar configuracion del archivo "`/etc/php7/etc/php-fpm.d/www.conf`"(Esto dentro del contenedor, si compartio esta configuracion en el host anfitrion de docker, debe editarlo alli)
 ```
 pm = dynamic            
-pm.max_children         (total RAM - (DB etc) / process size)
-pm.start_servers        (cpu cores * 4)
-pm.min_spare_servers    (cpu cores * 2)
-pm.max_spare_servers    (cpu cores * 4)
+pm.max_children         (maxclients)
+pm.start_servers        (Cantidad CPU's * 4)
+pm.min_spare_servers    (Cantidad CPU's * 2)
+pm.max_spare_servers    (Cantidad CPU's * 4)
 pm.max_requests         1000
 ```
 ### 5.- Reiniciar el contenedor
