@@ -114,6 +114,7 @@ RUN wget https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py \
 	&& chmod a+x ps_mem.py
 # RUN php-fpm --fpm-config /etc/php7/etc/php-fpm.conf
 COPY ./init_service.sh /init_service.sh
+RUN chmod 777 /init_service.sh
 
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
