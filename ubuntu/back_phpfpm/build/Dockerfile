@@ -113,7 +113,7 @@ RUN apt install wget
 RUN wget https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py \
 	&& chmod a+x ps_mem.py
 # RUN php-fpm --fpm-config /etc/php7/etc/php-fpm.conf
-
+COPY ./init_service.sh /init_service.sh
 
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -124,6 +124,7 @@ EXPOSE 80 443
 
 
 # Configurar que ejecutará al iniciar el contenedor
-CMD php-fpm --fpm-config /etc/php7/etc/php-fpm.conf
-ENTRYPOINT ["apache2ctl", "-D", "FOREGROUND"]
+CMD /init_service.sh
+# CMD php-fpm --fpm-config /etc/php7/etc/php-fpm.conf
+# ENTRYPOINT ["apache2ctl", "-D", "FOREGROUND"]
 
