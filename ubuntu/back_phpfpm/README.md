@@ -33,9 +33,17 @@ Para poder ingresar en el bash del contenedor
 ```bash
 docker exec -it phpfpm_compile /bin/bash
 ```
-Al estar en modo event con phpfpm se debe hacer las configuraciones optimas del mismo. Revisar la documentacion **configurar phpfpm y apache2-event.md** en el directorio guide
-Para conocer cuanto consumen los procesos, ejecutar lo siguiente dentro del contenedor
+Al estar en modo event con phpfpm se debe hacer las configuraciones optimas del mismo. Revisar la documentacion **configurar phpfpm y apache2-event.md** en el directorio "guide"
+
+Para conocer cuanta Memoria Ram consumen los procesos, se puede ejecutar dentro del contenedor lo siguiente:
 ```bash
 python /ps_mem.py
+```
+
+## Se puede comprobar el funcionamiento de pthreads haciendo lo siguiente
+```bash
+docker run -v ./guide/MultiHilo.php:/MultiHilo.php --name compile_phpfpm -D ubuntu_phpfpm:1.0
+docker exec -it phpfpm_compile /bin/bash
+php /MultiHilo.php
 ```
 
