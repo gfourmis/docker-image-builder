@@ -21,6 +21,10 @@ Para agregar el código, copiar la carpeta "app" al directorio host. Sustituir "
 ```bash
 docker run --name flask_at -p 5000:5000 -v /path_app/app:/opt/app -d luijo265/ubuntu_builder:flask_1.0
 ```
+Para solo poder acceder a las graficas en formato png.
+```bash
+docker run --name flask_at -p 5000:5000 -v /path_app/app/graphical:/opt/app/graphical -d luijo265/ubuntu_builder:flask_1.0
+```
 Para poder ingresar en el bash del contenedor
 ```bash
 docker exec -it flask_at /bin/bash
