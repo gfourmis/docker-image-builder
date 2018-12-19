@@ -1,10 +1,9 @@
 ############################################################
 # Dockerfile para el back Python con Flask
-# Basado en ubuntu 16.04
+# Basado en python oficial repository
 ############################################################
 
 # Indicar la imagen base
-# FROM ubuntu:16.04
 FROM python:3
 
 # Archivo Autor / Mantenimiento
