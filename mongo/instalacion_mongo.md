@@ -117,6 +117,10 @@ db.createUser(
     }
 )
 ```
+**Ver usuarios asignados en la actual base de datos**
+```bash
+db.getUsers()
+```
 
 <div id="id7"></div>
 
