@@ -132,7 +132,7 @@ mongodump   -h "IP_SERVER" \
             --gzip \
             --out path_store_db/.
 ```
-**Comando para backup**
+**Comando para restore**
 ```bash
 mongorestore    -h "IP_SERVER" \
                 --port "PUERTO" \
