@@ -1,0 +1,1 @@
+# Init image graphical folder
