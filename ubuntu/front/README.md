@@ -5,7 +5,7 @@ Contiene configuración e instalación de PHP 7.1, Apache2 en modo prefork (El p
 **Lista general de paquetes instalados:**
 - git
 - curl
-- ndoejs
+- nodejs 8.*
 
 ## Para compilar y ejecutar
 
